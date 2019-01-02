@@ -107,62 +107,106 @@ function myFunction(departure) {
     destinations_db.insert({destinations, date: now, id: id, departure: 'EIN'});
     
     destinations.forEach(function(element) {
-          
-          console.log(element.iata);
       
-      if (element.iata != "undefined") {
-        
-        var flight_data = [];
+      function myFunction(element) {
+      
+        if (element.iata != "undefined") {
 
-        var p1 = new Promise(function(resolve, reject) {
+          var flight_data = [];
 
-          var options = {
-            method: "GET",
-            url: 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/NL/EUR/nl-NL/EIN-sky/' + element.iata + '-sky/2019-01',
-            headers: {
-              "X-RapidAPI-Key": "9628f4a60dmsh95c58f1ac2489a4p1c7027jsn4af9bb3ba2c2",
-              "content-type": "application/json",
+          var p1 = new Promise(function(resolve, reject) {
+
+            var options = {
+              method: "GET",
+              url: 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/NL/EUR/nl-NL/EIN-sky/' + element.iata + '-sky/2019-01',
+              headers: {
+                "X-RapidAPI-Key": "9628f4a60dmsh95c58f1ac2489a4p1c7027jsn4af9bb3ba2c2",
+                "content-type": "application/json",
+              }
+            };
+
+            function callback(error, response, body) {
+
+              if (error) {
+
+                console.log(error);
+
+              } else {
+
+                var Skyscanner_data = JSON.parse(body);
+
+                if (typeof Skyscanner_data.ValidationErrors === "undefined") {
+
+                  var Quotes = Skyscanner_data.Quotes;
+                  Quotes.sort((a, b) => a.MinPrice - b.MinPrice);
+
+                  flight_data.push({Quotes: Quotes});
+                  flight_data.push({Places: Skyscanner_data.Places});
+                  flight_data.push({Carriers: Skyscanner_data.Carriers});
+                  flight_data.push({Currencies: Skyscanner_data.Currencies});
+                  flight_data.push({iata: element.iata});
+
+                  resolve(flight_data)
+
+                } else {
+                  
+                  console.log(element);
+                  
+                  setTimeout(function(){
+                    myFunction(element);
+                  }, 5000);
+
+                }
+
+              }
+
             }
-          };
 
-          function callback(error, response, body) {
+            request(options, callback);
 
-            var Skyscanner_data = JSON.parse(body);
-            
-            if (typeof Skyscanner_data.ValidationErrors === "undefined") {
+          });
 
-              var Quotes = Skyscanner_data.Quotes;
-              Quotes.sort((a, b) => a.MinPrice - b.MinPrice);
+          p1.then(function(flight_data) {
 
-              flight_data.push({Quotes: Quotes});
-              flight_data.push({Places: Skyscanner_data.Places});
-              flight_data.push({Carriers: Skyscanner_data.Carriers});
-              flight_data.push({Currencies: Skyscanner_data.Currencies});
-              flight_data.push({iata: element.iata});
+            var flights = [];
 
-              resolve(flight_data)
-              
-            } else {
-              
-              resolve(flight_data);
-              
+            if (typeof flight_data['4'] != "undefined") {
+
+            var flights_counter = 0;
+
+              flight_data['0'].Quotes.forEach(function(element) {
+
+                var flight_obj = {
+                  price: element.MinPrice,
+                  direct: element.Direct,
+                  carrier: {
+                    id: element.OutboundLeg.CarrierIds['0']
+                  },
+                  departure: element.OutboundLeg.DepartureDate
+                }
+
+                  flights_counter++
+
+                if (flights_counter <= 10) {
+                flights.push(flight_obj);
+                }
+
+
+              });
+
+            destinations_db.update({departure: "EIN", "destinations.iata": flight_data['4'].iata}, { $set: {"destinations.$.flights": flights} });
+
             }
 
-          }
+          });
 
-          request(options, callback);
+        } else {
+          console.log('undefined');
+        }
 
-        });
-        
-        p1.then(function(flight_data) {
-          
-//           console.log(flight_data['4'].iata);
-          
-        });
-        
-      } else {
-        console.log('undefined');
       }
+      
+      myFunction(element);
       
     });
 
