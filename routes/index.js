@@ -65,21 +65,21 @@ client.message(req.body.Body, {})
       
       var date = dateFormat(data.entities.datetime['0'].value, "mm");
 
-      if (date == 12) {
+//       if (date == 12) {
 
-        date = "01";
+//         date = "01";
 
-      } else {
+//       } else {
 
-        date = Number(date) + 1;
+//         date = Number(date) + 1;
         
-        if (date < 10) {
+//         if (date < 10) {
           
-          date = "0" + date
+//           date = "0" + date
           
-        }
+//         }
 
-      }
+//       }
       
       var from = data.entities.location['0'].value;
       var to = data.entities.location['1'].value;
