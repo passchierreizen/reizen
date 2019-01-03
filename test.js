@@ -108,7 +108,9 @@ function myFunction(departure) {
     
     destinations.forEach(function(element) {
       
-      function myFunction(element) {
+      var counter = 0;
+      
+      function myFunction(element, counter) {
       
         if (element.iata != "undefined") {
 
@@ -134,6 +136,8 @@ function myFunction(departure) {
               } else {
 
                 var Skyscanner_data = JSON.parse(body);
+                
+                console.log(Skyscanner_data);
 
                 if (typeof Skyscanner_data.ValidationErrors === "undefined") {
 
@@ -145,15 +149,29 @@ function myFunction(departure) {
                   flight_data.push({Carriers: Skyscanner_data.Carriers});
                   flight_data.push({Currencies: Skyscanner_data.Currencies});
                   flight_data.push({iata: element.iata});
+                  
+                  if (Skyscanner_data.Quotes.length > 0) {
 
                   resolve(flight_data)
+                  } else {
+                    
+                    counter++
+                    
+                    
+                  if (counter <= 3) {
+                  setTimeout(function(){
+                    myFunction(element, counter);
+                  }, 5000);
+                  }
+                    
+                  }
 
                 } else {
                   
                   console.log(element);
                   
                   setTimeout(function(){
-                    myFunction(element);
+                    myFunction(element, counter);
                   }, 5000);
 
                 }
@@ -184,6 +202,10 @@ function myFunction(departure) {
                   },
                   departure: element.OutboundLeg.DepartureDate
                 }
+                
+                                if (flight_obj.price <= 15) {
+                console.log(flight_obj);
+                }
 
                   flights_counter++
 
@@ -206,7 +228,7 @@ function myFunction(departure) {
 
       }
       
-      myFunction(element);
+      myFunction(element, counter);
       
     });
 
