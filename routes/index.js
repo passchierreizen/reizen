@@ -59,9 +59,41 @@ client.message(req.body.Body, {})
     }).then(message => console.log(message.sid))
     .done();
     
-  } else {
+  }
     
-    if (data.entities.intent['0'].value === "one") {
+    else if (data.entities.intent['0'].value === "list_direct_flights") {
+      
+      var date = dateFormat(data.entities.datetime['0'].value, "mm");
+      
+      var from = data.entities.location['0'].value;
+      
+      var airport_from_obj = airports.filter(obj => {
+        return obj.city === from;
+      });
+      
+      var airport_from_iata = airport_from_obj['0'].iata;
+      
+      Whatsappclient.messages.create({
+        body: 'Ik ga zoeken naar de goedkoopste vluchten vanaf ' + from + ' (' + airport_from_iata + ') in maandnummer ' + date + '. Een ogenblik geduld...',
+        from: 'whatsapp:+14155238886',
+        to: 'whatsapp:+31634948646'
+      }).then(message => console.log(message.sid))
+      .done();
+      
+    } 
+  
+  else if (data.entities.intent['0'].value === "list_return_flights") {
+    
+      Whatsappclient.messages.create({
+        body: 'Ik kan nog niet zoeken naar de goedkoopste retourvluchten.',
+        from: 'whatsapp:+14155238886',
+        to: 'whatsapp:+31634948646'
+      }).then(message => console.log(message.sid))
+      .done();
+    
+  }
+    
+      else if (data.entities.intent['0'].value === "one") {
       
       var date = dateFormat(data.entities.datetime['0'].value, "mm");
 
@@ -164,18 +196,17 @@ p1.then(function(flight_data) {
 });
 
 
-    } else if (data.entities.intent['0'].value === "return") {
+    }
+      else if (data.entities.intent['0'].value === "return") {
 
       Whatsappclient.messages.create({
-        body: 'Ik ga zoeken naar de goedkoopste retourvlucht.',
+        body: 'Ik kan nog niet zoeken naar de goedkoopste retourvlucht.',
         from: 'whatsapp:+14155238886',
         to: 'whatsapp:+31634948646'
       }).then(message => console.log(message.sid))
       .done();
 
     }
-
-  }
   
 })
 .catch(console.error);

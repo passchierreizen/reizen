@@ -104,7 +104,7 @@ function myFunction(departure) {
 
     var id =  randomstring.generate(10);
 
-    destinations_db.insert({destinations, date: now, id: id, departure: 'EIN'});
+    destinations_db.insert({destinations, date: now, id: id, departure: 'EIN', index: {month: '01'}});
     
     destinations.forEach(function(element) {
       
