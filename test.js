@@ -136,8 +136,6 @@ function myFunction(departure) {
               } else {
 
                 var Skyscanner_data = JSON.parse(body);
-                
-                console.log(Skyscanner_data);
 
                 if (typeof Skyscanner_data.ValidationErrors === "undefined") {
 
@@ -156,7 +154,7 @@ function myFunction(departure) {
                   } else {
                     
                     counter++
-                    
+                    console.log(counter);
                     
                   if (counter <= 3) {
                   setTimeout(function(){
@@ -168,11 +166,14 @@ function myFunction(departure) {
 
                 } else {
                   
-                  console.log(element);
+                    counter++
+                  console.log(element)
                   
+                  if (counter <= 3) {
                   setTimeout(function(){
                     myFunction(element, counter);
                   }, 5000);
+                  }
 
                 }
 
@@ -231,6 +232,99 @@ function myFunction(departure) {
       myFunction(element, counter);
       
     });
+    
+      setTimeout(function(){
+        
+        destinations_db.findOne({departure: 'EIN'}).then((doc) => {
+          
+          if (doc) {
+            
+            var cheapest_flights = [];
+            
+            doc.destinations.forEach(function(element_destination) {
+              
+              var destination = element_destination.iata;
+              
+              if (typeof element_destination.flights != "undefined") {
+              
+                element_destination.flights.forEach(function(element) {
+
+                  var flight = {
+                    from: 'EIN',
+                    to: destination,
+                    city: element_destination.city,
+                    price: element.price,
+                    direct: element.direct,
+                    carrier: element.carrier.id,
+                    departure: element.departure
+                  }
+
+                  console.log(flight);
+                  
+                  cheapest_flights.push(flight);
+
+                });
+                
+              }
+              
+            });
+            
+            
+            cheapest_flights.sort((a, b) => a.price - b.price);
+              
+            var cheapest_fares = [];
+            
+            cheapest_flights.forEach(function(element) {
+            
+              if (cheapest_fares.some(e => e.city === element.city)) {
+
+                objIndex = cheapest_fares.findIndex((obj => obj.city === element.city));
+
+                if (element.price == cheapest_fares[objIndex].price && element.carrier === cheapest_fares[objIndex].carrier) {
+                  cheapest_fares[objIndex].departures.push({departure: element.departure})
+                }
+
+              } else {
+
+                var fare = {
+                  city: element.city,
+                  iata: element.to,
+                  price: element.price,
+                  direct: element.direct,
+                  carrier: element.carrier,
+                  departures: [{departure: element.departure}]
+                }
+
+                cheapest_fares.push(fare)
+              }
+              
+            });
+            
+            var cheapest_fares_list = [];
+            
+            var counter = 0;
+            
+            cheapest_fares.forEach(function(element) {
+              
+                 counter++
+
+                if (counter <= 10) {
+                  cheapest_fares_list.push(element);
+                }
+              
+            });
+            
+            console.log(cheapest_fares_list);
+            
+            destinations_db.update({departure: "EIN"}, { $set: {cheapest: cheapest_fares_list} });
+            
+          } else {
+            
+          }
+        
+        })
+        
+      }, 60000);
 
   });
   
