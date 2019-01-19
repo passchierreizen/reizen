@@ -194,12 +194,23 @@ function myFunction(departure) {
             var flights_counter = 0;
 
               flight_data['0'].Quotes.forEach(function(element) {
+                
+                var airline = flight_data['2'].Carriers.filter(obj => {
+                  return obj.CarrierId === element.OutboundLeg.CarrierIds['0'];
+                })
+
+                var airline_name = airline['0'].Name;
+                
+                if (airline_name === "Kartika Airlines") {
+                  airline_name = "Wizz Air";
+                }
 
                 var flight_obj = {
                   price: element.MinPrice,
                   direct: element.Direct,
                   carrier: {
-                    id: element.OutboundLeg.CarrierIds['0']
+                    id: element.OutboundLeg.CarrierIds['0'],
+                    name: airline_name
                   },
                   departure: element.OutboundLeg.DepartureDate
                 }
@@ -235,6 +246,13 @@ function myFunction(departure) {
     
       setTimeout(function(){
         
+                      Whatsappclient.messages.create({
+                        body: 'De tien goedkoopste enkele vluchten vanaf Eindhoven (EIN) worden verzameld. Een ogenblik geduld...',
+                        from: 'whatsapp:+14155238886',
+                        to: 'whatsapp:+31634948646'
+                      }).then(message => console.log(message.sid))
+                      .done();
+        
         destinations_db.findOne({departure: 'EIN'}).then((doc) => {
           
           if (doc) {
@@ -255,11 +273,9 @@ function myFunction(departure) {
                     city: element_destination.city,
                     price: element.price,
                     direct: element.direct,
-                    carrier: element.carrier.id,
+                    carrier: element.carrier.name,
                     departure: element.departure
                   }
-
-                  console.log(flight);
                   
                   cheapest_flights.push(flight);
 
@@ -309,7 +325,77 @@ function myFunction(departure) {
                  counter++
 
                 if (counter <= 10) {
+                  
+                  if (element.departures.length > 1) {
+                    
+                    var length_counter = 1;
+              
+                    var last_but_one = element.departures.length - 1;
+                    
+                    var date_text = ""
+                    
+                    if (element.departures.length == 2) {
+                      
+                      element.departures.forEach(function(departure) {
+
+                        var date = dateFormat(departure.departure, "dd-mm-yyyy");
+
+                        if (length_counter == 1) {
+                          date_text += date + ' en ';
+                        } else {
+                          date_text += date;
+                        }
+
+                        length_counter++
+
+                      });
+                      
+                    } else {
+                    
+                      element.departures.forEach(function(departure) {
+
+                        var date = dateFormat(departure.departure, "dd-mm-yyyy");
+
+                        if (length_counter == 1) {
+                          date_text += date + ', ';
+                        } else if (length_counter == last_but_one) {
+                          date_text += date + ' en ';
+                        } else if (length_counter == element.departures.length) {
+                          date_text += date;
+                        }
+
+                        length_counter++
+
+                      });
+                      
+                    }
+                    
+                    Whatsappclient.messages.create({
+                      body: 'Voor ' + element.price + ' euro vlieg je vanaf Eindhoven (EIN) naar ' + element.city + ' (' + element.iata + ') en vertrekt op ' + date_text + '. Deze vluchten worden uitgevoerd door ' + element.carrier + '.',
+                      from: 'whatsapp:+14155238886',
+                      to: 'whatsapp:+31634948646'
+                    }).then(message => console.log(message.sid))
+                    .done();
+                    
+                  } else {
+                    
+                    element.departures.forEach(function(departure) {
+                      
+                      var date = dateFormat(departure.departure, "dd-mm-yyyy");
+
+                      Whatsappclient.messages.create({
+                        body: 'Voor ' + element.price + ' euro vlieg je vanaf Eindhoven (EIN) naar ' + element.city + ' (' + element.iata + ') en vertrekt op ' + date + '. Deze vlucht wordt uitgevoerd door ' + element.carrier + '.',
+                        from: 'whatsapp:+14155238886',
+                        to: 'whatsapp:+31634948646'
+                      }).then(message => console.log(message.sid))
+                      .done();
+
+                    });
+                    
+                  }
+                  
                   cheapest_fares_list.push(element);
+                  
                 }
               
             });
