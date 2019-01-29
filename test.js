@@ -120,7 +120,7 @@ function myFunction(departure) {
 
             var options = {
               method: "GET",
-              url: 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/NL/EUR/nl-NL/EIN-sky/' + element.iata + '-sky/2019-01',
+              url: 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/NL/EUR/nl-NL/EIN-sky/' + element.iata + '-sky/2019-02',
               headers: {
                 "X-RapidAPI-Key": "9628f4a60dmsh95c58f1ac2489a4p1c7027jsn4af9bb3ba2c2",
                 "content-type": "application/json",
@@ -326,73 +326,73 @@ function myFunction(departure) {
 
                 if (counter <= 10) {
                   
-                  if (element.departures.length > 1) {
+//                   if (element.departures.length > 1) {
                     
-                    var length_counter = 1;
+//                     var length_counter = 1;
               
-                    var last_but_one = element.departures.length - 1;
+//                     var last_but_one = element.departures.length - 1;
                     
-                    var date_text = ""
+//                     var date_text = ""
                     
-                    if (element.departures.length == 2) {
+//                     if (element.departures.length == 2) {
                       
-                      element.departures.forEach(function(departure) {
+//                       element.departures.forEach(function(departure) {
 
-                        var date = dateFormat(departure.departure, "dd-mm-yyyy");
+//                         var date = dateFormat(departure.departure, "dd-mm-yyyy");
 
-                        if (length_counter == 1) {
-                          date_text += date + ' en ';
-                        } else {
-                          date_text += date;
-                        }
+//                         if (length_counter == 1) {
+//                           date_text += date + ' en ';
+//                         } else {
+//                           date_text += date;
+//                         }
 
-                        length_counter++
+//                         length_counter++
 
-                      });
+//                       });
                       
-                    } else {
+//                     } else {
                     
-                      element.departures.forEach(function(departure) {
+//                       element.departures.forEach(function(departure) {
 
-                        var date = dateFormat(departure.departure, "dd-mm-yyyy");
+//                         var date = dateFormat(departure.departure, "dd-mm-yyyy");
 
-                        if (length_counter == 1) {
-                          date_text += date + ', ';
-                        } else if (length_counter == last_but_one) {
-                          date_text += date + ' en ';
-                        } else if (length_counter == element.departures.length) {
-                          date_text += date;
-                        }
+//                         if (length_counter == 1) {
+//                           date_text += date + ', ';
+//                         } else if (length_counter == last_but_one) {
+//                           date_text += date + ' en ';
+//                         } else if (length_counter == element.departures.length) {
+//                           date_text += date;
+//                         }
 
-                        length_counter++
+//                         length_counter++
 
-                      });
+//                       });
                       
-                    }
+//                     }
                     
-                    Whatsappclient.messages.create({
-                      body: 'Voor ' + element.price + ' euro vlieg je vanaf Eindhoven (EIN) naar ' + element.city + ' (' + element.iata + ') en vertrekt op ' + date_text + '. Deze vluchten worden uitgevoerd door ' + element.carrier + '.',
-                      from: 'whatsapp:+14155238886',
-                      to: 'whatsapp:+31634948646'
-                    }).then(message => console.log(message.sid))
-                    .done();
+//                     Whatsappclient.messages.create({
+//                       body: 'Voor ' + element.price + ' euro vlieg je vanaf Eindhoven (EIN) naar ' + element.city + ' (' + element.iata + ') en vertrekt op ' + date_text + '. Deze vluchten worden uitgevoerd door ' + element.carrier + '.',
+//                       from: 'whatsapp:+14155238886',
+//                       to: 'whatsapp:+31634948646'
+//                     }).then(message => console.log(message.sid))
+//                     .done();
                     
-                  } else {
+//                   } else {
                     
-                    element.departures.forEach(function(departure) {
+//                     element.departures.forEach(function(departure) {
                       
-                      var date = dateFormat(departure.departure, "dd-mm-yyyy");
+//                       var date = dateFormat(departure.departure, "dd-mm-yyyy");
 
-                      Whatsappclient.messages.create({
-                        body: 'Voor ' + element.price + ' euro vlieg je vanaf Eindhoven (EIN) naar ' + element.city + ' (' + element.iata + ') en vertrekt op ' + date + '. Deze vlucht wordt uitgevoerd door ' + element.carrier + '.',
-                        from: 'whatsapp:+14155238886',
-                        to: 'whatsapp:+31634948646'
-                      }).then(message => console.log(message.sid))
-                      .done();
+//                       Whatsappclient.messages.create({
+//                         body: 'Voor ' + element.price + ' euro vlieg je vanaf Eindhoven (EIN) naar ' + element.city + ' (' + element.iata + ') en vertrekt op ' + date + '. Deze vlucht wordt uitgevoerd door ' + element.carrier + '.',
+//                         from: 'whatsapp:+14155238886',
+//                         to: 'whatsapp:+31634948646'
+//                       }).then(message => console.log(message.sid))
+//                       .done();
 
-                    });
+//                     });
                     
-                  }
+//                   }
                   
                   cheapest_fares_list.push(element);
                   
