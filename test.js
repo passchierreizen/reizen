@@ -104,7 +104,7 @@ function myFunction(departure) {
 
     var id =  randomstring.generate(10);
 
-    destinations_db.insert({destinations, date: now, id: id, departure: 'EIN', index: {month: '01'}});
+    destinations_db.insert({destinations, date: now, id: id, departure: 'EIN', index: {month: '03'}});
     
     destinations.forEach(function(element) {
       
@@ -120,7 +120,7 @@ function myFunction(departure) {
 
             var options = {
               method: "GET",
-              url: 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/NL/EUR/nl-NL/EIN-sky/' + element.iata + '-sky/2019-02',
+              url: 'https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/NL/EUR/nl-NL/EIN-sky/' + element.iata + '-sky/2019-03',
               headers: {
                 "X-RapidAPI-Key": "9628f4a60dmsh95c58f1ac2489a4p1c7027jsn4af9bb3ba2c2",
                 "content-type": "application/json",
