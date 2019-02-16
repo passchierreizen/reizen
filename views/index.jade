@@ -18,7 +18,7 @@ block content
                   <span class="badge badge-success">Goedkoopste reis</span>
                   <span class="badge badge-secondary">37% goedkoper dan bij Ryanair</span>
                   <small>Eindhoven naar</small>
-                  <strong>London</strong> <small class="departure">voor</small> <strong>€ 6,99</strong>
+                  <strong>London</strong> <small class="departure">vanaf</small> <strong>€ 6,99</strong>
                 h5(class="card-subtitle mb-2") Voor deze prijs kun je naar London vliegen op . Deze vlucht wordt uitgevoerd door Ryanair. 
         div(class="card")
           div.card-img-top
@@ -27,7 +27,7 @@ block content
                 h4(class="card-title").
                   <span class="badge badge-secondary">37% goedkoper dan bij Ryanair</span>
                   <small>Eindhoven naar</small>
-                  <strong>London</strong> <small class="departure">voor</small> <strong>€ 6,99</strong>
+                  <strong>London</strong> <small class="departure">vanaf</small> <strong>€ 6,99</strong>
                 h5(class="card-subtitle mb-2") Voor deze prijs kun je naar London vliegen op . Deze vlucht wordt uitgevoerd door Ryanair. 
         div(class="card")
           div.card-img-top
@@ -48,22 +48,98 @@ block content
 
     // 'map' refers to a <div> element with the ID map
     let map = L.mapquest.map('map', {
-      center: [37.7749, -122.4194],
+      center: [51.436600, 5.478000],
       layers: baseLayer,
-      zoom: 12
+      zoom: 4
     });
     
-    L.mapquest.textMarker([45, -120], {
-      text: 'London',
-      subtext: '€ 6,99 (37% goedkoper)',
-      position: 'right',
-      type: 'marker',
-      icon: {
-        primaryColor: '#333333',
-        secondaryColor: '#333333',
-        size: 'sm'
-      }
-    }).addTo(map);
+    $.ajax({type: 'get', url: "map/data", data: {departure: 'EIN'}, success: function(result) {
+    
+      var counter = 0; 
+      
+      result.forEach(function(element) {
+        
+        var latLng = element.latLng;
+        
+        var latitude = element.latLng.lat;
+        var longitude = element.latLng.lng;
+        
+        counter++;
+        
+        if (counter == 1) {
+        
+          var departures_counter = 0; 
+
+          element.departures.forEach(function(departure_element) {
+
+            departures_counter++;
+
+            if (departures_counter == 1) {
+
+              var price = Number(departure_element.price.edreams);
+              
+              var round = Math.round(departure_element.price.difference_fixed)
+
+              var subtext = 'Vanaf € ' + price + ' (' + round + '% goedkoper)';
+
+              L.mapquest.textMarker([latitude, longitude], {
+                text: element.city,
+                subtext: subtext,
+                position: 'right',
+                type: 'marker',
+                icon: {
+                  primaryColor: '#28a745',
+                  secondaryColor: '#28a745',
+                  size: 'sm'
+                }
+              }).addTo(map);
+
+            } else {
+            
+            }
+
+          })
+        
+        } else {
+          var departures_counter = 0; 
+
+          element.departures.forEach(function(departure_element) {
+
+            departures_counter++;
+            
+              if (departures_counter == 1) {
+        
+                var price = Number(departure_element.price.edreams);
+
+                var round = Math.round(departure_element.price.difference_fixed)
+
+                var subtext = 'Vanaf € ' + price + ' (' + round + '% goedkoper)';
+
+                L.mapquest.textMarker([latitude, longitude], {
+                  text: element.city,
+                  subtext: subtext,
+                  position: 'right',
+                  type: 'marker',
+                  icon: {
+                    primaryColor: '#333333',
+                    secondaryColor: '#333333',
+                    size: 'sm'
+                  }
+                }).addTo(map);
+              
+              } else {
+              
+              }
+              
+            })
+        
+        }
+        
+      });
+      
+    }});
+    
+
     
     L.control.layers({
       'Map': baseLayer,

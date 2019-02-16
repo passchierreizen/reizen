@@ -10,6 +10,7 @@ const authToken = 'a05affcdf1f4cb6ec177180021d99245';
 const Whatsappclient = require('twilio')(accountSid, authToken);
 const db = require('monk')('mongodb://milanpasschier:detering1@ds143614.mlab.com:43614/reizen')
 const flights_db = db.get('flights');
+const destinations_db = db.get('destinations');
 var request = require('request');
 var randomstring = require("randomstring");
 var dateFormat = require('dateformat');
@@ -44,6 +45,16 @@ router.get('/', function(req, res, next) {
 res.render('index', { title: 'Express' });
   
 });
+
+router.get('/map/data', function(req, res, next) {
+  
+  destinations_db.findOne({departure: req.query.departure}).then((doc) => {
+    
+    res.send(doc.edreams);
+    
+  });
+  
+})
 
 router.post('/reply', function(req, res, next) {
   

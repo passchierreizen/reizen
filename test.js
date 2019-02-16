@@ -113,7 +113,7 @@ function myFunction(departure) {
       
       setTimeout(function(){
         resolve(destinations);
-      }, 30000);
+      }, 5000);
 
     }
 
@@ -523,10 +523,11 @@ function myFunction(departure) {
                         }
                         console.log(body.cheapestItineraryPrice);
                         
-                        var difference = (Number(body.cheapestItineraryPrice) - Number(body.cheapestItineraryProviderPrice)) / Number(body.cheapestItineraryProviderPrice);
-                        var difference_fixed = difference.toFixed(2);
+                        var difference = Number(body.cheapestItineraryProviderPrice) - Number(body.cheapestItineraryPrice);
+                        var difference_fixed = (difference / body.cheapestItineraryProviderPrice) * 100;
+                        difference_fixed = difference_fixed.toFixed(2);
 
-                        departures.push({departure: date, price: {edreams: body.cheapestItineraryPrice, provider: body.cheapestItineraryProviderPrice, difference: difference_fixed}})
+                        departures.push({departure: date, price: {edreams: body.cheapestItineraryPrice, provider: body.cheapestItineraryProviderPrice, difference: difference, difference_fixed: difference_fixed}})
 
                       })
 
@@ -538,7 +539,7 @@ function myFunction(departure) {
                       departures.sort(function(a,b){
                         // Turn your strings into dates, and then subtract them
                         // to get a value that is either negative, positive, or zero.
-                        return new Date(a.departure) - new Date(b.departure);
+                        return new Date(a.price.edreams) - new Date(b.price.edreams);
                       });
 
                       edreams_obj.departures = departures;
