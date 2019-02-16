@@ -1,8 +1,125 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0; 
+  padding: 0; 
+  width: 100%; 
+  height: 100%;
+  font-size: 14px;
+  color: #333333; }
 }
 
 a {
   color: #00B7FF;
+}
+
+h1 { font-size: 2em; }
+h2 { font-size: 1.5em; }
+h3 { font-size: 1.17em; }
+h4 { font-size: 1rem; }
+h5 { font-size: .83em; }
+h6 { font-size: .75em; }
+b,
+strong { font-weight: bolder }
+
+header {
+  height: 59px;
+  width: 100%
+}
+
+#map {
+  position: absolute;
+  top: 59px;
+  bottom: 0;
+  left: 360px;
+  width: calc(100% - 360px);
+  height: calc(100% - 59px); 
+}
+
+.sidebar {
+  position: fixed;
+  width: 360px;
+  height: calc(100% - 59px);
+}
+
+.cards {
+}
+
+
+.sidebar-content {
+  height: calc(100% - 59px);
+  padding: .5rem 1rem;
+  overflow-y: scroll;
+}
+
+.card:first-child {
+  margin-top: 0px;
+}
+
+.card {
+  margin-top: 1rem;
+}
+
+span.badge {
+  display: inline-block;
+}
+
+.card-title strong {
+  display: inline-block;
+}
+
+.card-title small {
+  display: block;
+}
+
+small.departure {
+  display: inline-block;
+}
+
+.card-img-top {
+  border-radius: .25rem;
+  background: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60') no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 217.933px;
+  color: #FFFFFF;
+}
+
+.card-img-top:hover {
+  
+      background: linear-gradient(to bottom, transparent, black),
+      url("https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60");  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.card-subtitle {
+  display: none;
+  color: #FFFFFF;
+}
+
+.card-img-top:hover .card-subtitle { display: block; }
+
+.card-img-top-bottom {
+  position: absolute;
+  bottom: 0;
+}
+
+.sidebar-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 360px;
+  height: 59px; 
+}
+
+.sidebar-bottom small {
+  line-height: 59px;
+  display: block;
+  text-align: center;
+}
+
+.heart {
+  color: #dc3545;
 }

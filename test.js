@@ -89,6 +89,23 @@ function myFunction(departure) {
             iata_db.insert(destination);
             destinations.push({city: destination.city, iata: destination_iata});
           }
+          
+//             var options = {
+//               method: "GET",
+//               url: 'http://www.mapquestapi.com/geocoding/v1/address?key=gPQc8rPNA7c5ZP9k6gfGGXAZA0xDIpQ8&location=' + destination.city
+//             };
+
+//             function callback(error, response, body) {
+              
+//               var result = JSON.parse(body);
+              
+//               var latLng = result.results['0'].locations['0'].latLng;
+              
+//               iata_db.update({"city": destination.city}, { $set: {latLng: latLng} });
+              
+//             }
+          
+//             request(options, callback);
 
         });
 
@@ -96,7 +113,7 @@ function myFunction(departure) {
       
       setTimeout(function(){
         resolve(destinations);
-      }, 5000);
+      }, 30000);
 
     }
 
@@ -437,6 +454,8 @@ function myFunction(departure) {
                 }
 
                 iata_db.findOne({iata: edreams_obj.iata}).then((doc) => {
+                  
+                  edreams_obj.latLng = doc.latLng;
 
                   if (typeof doc.edreams != "undefined") {
 
@@ -503,8 +522,11 @@ function myFunction(departure) {
                           return
                         }
                         console.log(body.cheapestItineraryPrice);
+                        
+                        var difference = (Number(body.cheapestItineraryPrice) - Number(body.cheapestItineraryProviderPrice)) / Number(body.cheapestItineraryProviderPrice);
+                        var difference_fixed = difference.toFixed(2);
 
-                        departures.push({departure: date, price: {edreams: body.cheapestItineraryPrice, provider: body.cheapestItineraryProviderPrice}})
+                        departures.push({departure: date, price: {edreams: body.cheapestItineraryPrice, provider: body.cheapestItineraryProviderPrice, difference: difference_fixed}})
 
                       })
 
