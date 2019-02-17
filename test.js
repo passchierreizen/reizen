@@ -439,6 +439,8 @@ function myFunction(departure) {
             
             destinations_db.update({departure: "EIN"}, { $set: {cheapest: cheapest_fares_list} });
             
+      setTimeout(function(){
+            
             destinations_db.findOne({departure: 'EIN', }).then((doc) => {
 
               var edreams = [];
@@ -456,6 +458,7 @@ function myFunction(departure) {
                 iata_db.findOne({iata: edreams_obj.iata}).then((doc) => {
                   
                   edreams_obj.latLng = doc.latLng;
+                  edreams_obj.background = doc.background;
 
                   if (typeof doc.edreams != "undefined") {
 
@@ -575,6 +578,8 @@ function myFunction(departure) {
               }, 30000);
 
             })
+        
+            }, 3000);
             
           } else {
             

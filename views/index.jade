@@ -2,7 +2,7 @@ extends layout
 
 block content
   header
-    nav(class="navbar navbar-light bg-light")
+    nav(class="navbar navbar-light")
       a(class="navbar-brand" href="#")
         img(src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="")
   div.sidebar
@@ -10,37 +10,9 @@ block content
       h2.
         De goedkoopste top 10 <strong>enkele reizen</strong> vanaf <strong>Eindhoven</strong> in <strong>maart</strong>
       div.cards
-        div(class="card")
-          div.card-img-top
-            div.card-img-top-bottom
-              div(class="card-body")
-                h4(class="card-title").
-                  <span class="badge badge-success">Goedkoopste reis</span>
-                  <span class="badge badge-secondary">37% goedkoper dan bij Ryanair</span>
-                  <small>Eindhoven naar</small>
-                  <strong>London</strong> <small class="departure">vanaf</small> <strong>€ 6,99</strong>
-                h5(class="card-subtitle mb-2") Voor deze prijs kun je naar London vliegen op . Deze vlucht wordt uitgevoerd door Ryanair. 
-        div(class="card")
-          div.card-img-top
-            div.card-img-top-bottom
-              div(class="card-body")
-                h4(class="card-title").
-                  <span class="badge badge-secondary">37% goedkoper dan bij Ryanair</span>
-                  <small>Eindhoven naar</small>
-                  <strong>London</strong> <small class="departure">vanaf</small> <strong>€ 6,99</strong>
-                h5(class="card-subtitle mb-2") Voor deze prijs kun je naar London vliegen op . Deze vlucht wordt uitgevoerd door Ryanair. 
-        div(class="card")
-          div.card-img-top
-            div.card-img-top-bottom
-              div(class="card-body")
-                h4(class="card-title").
-                  <span class="badge badge-secondary">37% goedkoper dan bij Ryanair</span>
-                  <small>Eindhoven naar</small>
-                  <strong>London</strong> <small class="departure">voor</small> <strong>€ 6,99</strong>
-                h5(class="card-subtitle mb-2") Voor deze prijs kun je naar London vliegen op . Deze vlucht wordt uitgevoerd door Ryanair. 
     div.sidebar-bottom
       small. 
-        Met <i class="fas fa-heart heart"></i> gemaakt door Milan Passchier.
+        Met <i class="fas fa-heart heart"></i> gemaakt door Milan Passchier
   div(id='map')
   script.
     L.mapquest.key = 'gPQc8rPNA7c5ZP9k6gfGGXAZA0xDIpQ8';
@@ -93,7 +65,15 @@ block content
                   size: 'sm'
                 }
               }).addTo(map);
-
+              
+              $(".cards").append('<div class="card" id="' + counter + '"><div class="card-img-top"><div class="card-img-top-bottom"><div class="card-body"><h4 class="card-title"><span class="badge badge-success">Goedkoopste reis</span><span class="badge badge-secondary">' + round + '% goedkoper dan bij ' + element.carrier + '</span><small>Eindhoven naar</small><strong>' + element.city + '</strong> <small class="departure">vanaf</small> <strong>€ ' + price + '</strong></h4><h5 class="card-subtitle mb-2">Deze vlucht wordt uitgevoerd door ' + element.carrier + ' en vertrekt op ' + departure_element.departure + '. </h5></div></div></div></div>');
+              $(".card#" + counter + " .card-img-top").css({"background": "url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover" });
+              $(".card#" + counter + " .card-img-top").hover(function() {
+                $(this).css({"background": "linear-gradient(to bottom, transparent, black), url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover" });
+              }, function() {
+                $(this).css({"background": "url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover"});
+              });
+                
             } else {
             
             }
@@ -126,6 +106,14 @@ block content
                     size: 'sm'
                   }
                 }).addTo(map);
+                
+              $(".cards").append('<div class="card" id="' + counter + '"><div class="card-img-top"><div class="card-img-top-bottom"><div class="card-body"><h4 class="card-title"><span class="badge badge-secondary">' + round + '% goedkoper dan bij ' + element.carrier + '</span><small>Eindhoven naar</small><strong>' + element.city + '</strong> <small class="departure">vanaf</small> <strong>€ ' + price + '</strong></h4><h5 class="card-subtitle mb-2">Deze vlucht wordt uitgevoerd door ' + element.carrier + ' en vertrekt op ' + departure_element.departure + '. </h5></div></div></div></div>');
+              $(".card#" + counter + " .card-img-top").css({"background": "url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover" });
+              $(".card#" + counter + " .card-img-top").hover(function() {
+                $(this).css({"background": "linear-gradient(to bottom, transparent, black), url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover" });
+              }, function() {
+                $(this).css({"background": "url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover"});
+              });
               
               } else {
               

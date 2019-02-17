@@ -25,6 +25,10 @@ header {
   width: 100%
 }
 
+.navbar {
+  background-color: #0496ff;
+}
+
 #map {
   position: absolute;
   top: 59px;
@@ -76,22 +80,11 @@ small.departure {
 
 .card-img-top {
   border-radius: .25rem;
-  background: url('https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60') no-repeat;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
   height: 217.933px;
   color: #FFFFFF;
 }
 
 .card-img-top:hover {
-  
-      background: linear-gradient(to bottom, transparent, black),
-      url("https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60");  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
   cursor: pointer;
 }
 
