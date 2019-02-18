@@ -38,6 +38,50 @@ header {
   height: calc(100% - 59px); 
 }
 
+.form-inline {
+  display: inline-block;
+padding-top: .3125rem;
+padding-bottom: .3125rem;
+margin-right: 1rem;
+font-size: 1.25rem;
+line-height: inherit;
+white-space: nowrap;
+}
+
+.form-inline input {
+  background-color: hsla(0, 0%, 100%,0.125);
+  width: 30px;
+  height: 30px;
+  color: #FFFFFF;
+  border: none;
+}
+
+.form-control:focus {
+  background-color: hsla(0, 0%, 100%,0.125);
+  border: none;
+    box-shadow: none;
+    color: #FFFFFF;
+    outline: 0;
+}
+
+.form-inline input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #FFFFFF;
+  opacity: 1; /* Firefox */
+}
+
+.form-inline input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #FFFFFF;
+}
+
+.form-inline input::-ms-input-placeholder { /* Microsoft Edge */
+  color: #FFFFFF;
+}
+
+.form-inline button {
+  width: 30px;
+  height: 30px;
+}
+
 .sidebar {
   position: fixed;
   width: 360px;
@@ -60,6 +104,7 @@ header {
 
 .card {
   margin-top: 1rem;
+  border: none;
 }
 
 span.badge {
