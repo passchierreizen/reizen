@@ -107,6 +107,14 @@ white-space: nowrap;
   border: none;
 }
 
+.card a:hover {
+    text-decoration: none;
+}
+
+.card a {
+  outline: none;
+}
+
 span.badge {
   display: inline-block;
 }
@@ -124,9 +132,40 @@ small.departure {
 }
 
 .card-img-top {
+  position: relative;
+  
   border-radius: .25rem;
   height: 217.933px;
   color: #FFFFFF;
+}
+
+.btn-primary {
+  background-color: #0496ff;
+  border-color: #0496ff;
+}
+
+.table tbody tr:first-child td, .table tbody tr:first-child th {
+  border-top: none;
+}
+
+.table tbody tr td, .table tbody tr th {
+  vertical-align: middle;
+}
+
+.table tbody tr:last-child {
+  border-radius: 0rem 0rem .25rem .25rem;
+}
+
+tbody {
+  border-radius: 0rem 0rem .25rem .25rem;
+}
+
+.table tbody tr:last-child td, .table tbody tr:last-child th {
+  border-radius: 0rem 0rem .25rem .25rem;
+}
+
+.table {
+  margin-bottom: 0rem;
 }
 
 .card-img-top:hover {
@@ -160,4 +199,8 @@ small.departure {
 
 .heart {
   color: #dc3545;
+}
+
+.flights {
+  display: none;
 }

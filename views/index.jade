@@ -8,7 +8,7 @@ block content
           img(src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" width="30" height="30" alt="")
         form(class="form-inline")
           input(class="form-control mr-sm-2" type="search" placeholder="Vluchten zoeken vanaf..." aria-label="Search")
-  div.sidebar
+  div.sidebar.bg-light
     div.sidebar-content
       h2.
         De goedkoopste top 10 <strong>enkele reizen</strong> vanaf <strong>Eindhoven</strong> in <strong>maart</strong>
@@ -69,15 +69,29 @@ block content
                 }
               }).addTo(map);
               
-              $(".cards").append('<div class="card" id="' + counter + '"><div class="card-img-top"><div class="card-img-top-bottom"><div class="card-body"><h4 class="card-title"><span class="badge badge-success">Goedkoopste reis</span><span class="badge badge-secondary">' + round + '% goedkoper dan bij ' + element.carrier + '</span><small>Eindhoven naar</small><strong>' + element.city + '</strong> <small class="departure">vanaf</small> <strong>€ ' + price + '</strong></h4><h5 class="card-subtitle mb-2">Deze vlucht wordt uitgevoerd door ' + element.carrier + ' en vertrekt op ' + departure_element.departure + '. </h5></div></div></div></div>');
+              $(".cards").append('<div class="card" id="' + counter + '"><a href="#" title="" data-id="' + counter + '"><div class="card-img-top" style="background: rgba(0, 0, 0, 0) url(&quot;https://source.unsplash.com/' + element.background + '/800x450&quot;) no-repeat scroll 0% 0% / cover;"><div class="card-img-top-bottom"><div class="card-body"><h4 class="card-title"><span class="badge badge-success">Goedkoopste reis</span><span class="badge badge-secondary">' + round + '% goedkoper dan bij ' + element.carrier + '</span><small>Eindhoven naar</small><strong>' + element.city + '</strong> <small class="departure">vanaf</small> <strong>€ ' + price + '</strong></h4><h5 class="card-subtitle mb-2">Deze vlucht wordt uitgevoerd door ' + element.carrier + ' en vertrekt op ' + departure_element.departure + '. </h5></div></div></div><div class="flights" data-id="' + counter + '"><table class="table"><tbody><tr><th scope="row">' + departure_element.departure + '</th><td>' + element.carrier + '</td><td><button type="button" class="btn btn-primary btn-sm">€ ' + price + '</button></td></tr></tbody></table></div></a></div>');
               $(".card#" + counter + " .card-img-top").css({"background": "url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover" });
               $(".card#" + counter + " .card-img-top").hover(function() {
                 $(this).css({"background": "linear-gradient(to bottom, transparent, black), url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover" });
               }, function() {
                 $(this).css({"background": "url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover"});
               });
+              
+              $( ".card a" ).click(function() {
+              
+                $(".card#" + this.getAttribute("data-id") + " .card-img-top").css({"border-radius": ".25rem .25rem 0rem 0rem"});
+
+                $( ".flights[data-id='" + this.getAttribute("data-id") + "']" ).slideDown( "fast", function() {
+                  // Animation complete.
+                });
+
+              });
                 
             } else {
+
+              var price = Number(departure_element.price.edreams);
+            
+              $(".flights[data-id='" + counter + "'] tbody").append('<tr><th scope="row">' + departure_element.departure + '</th><td>' + element.carrier + '</td><td><button type="button" class="btn btn-primary btn-sm">€ ' + price + '</button></td></tr>')
             
             }
 
@@ -110,7 +124,7 @@ block content
                   }
                 }).addTo(map);
                 
-              $(".cards").append('<div class="card" id="' + counter + '"><div class="card-img-top"><div class="card-img-top-bottom"><div class="card-body"><h4 class="card-title"><span class="badge badge-secondary">' + round + '% goedkoper dan bij ' + element.carrier + '</span><small>Eindhoven naar</small><strong>' + element.city + '</strong> <small class="departure">vanaf</small> <strong>€ ' + price + '</strong></h4><h5 class="card-subtitle mb-2">Deze vlucht wordt uitgevoerd door ' + element.carrier + ' en vertrekt op ' + departure_element.departure + '. </h5></div></div></div></div>');
+              $(".cards").append('<div class="card" id="' + counter + '"><a href="#" title="" data-id="' + counter + '"><div class="card-img-top" style="background: rgba(0, 0, 0, 0) url(&quot;https://source.unsplash.com/' + element.background + '/800x450&quot;) no-repeat scroll 0% 0% / cover;"><div class="card-img-top-bottom"><div class="card-body"><h4 class="card-title"><span class="badge badge-secondary">' + round + '% goedkoper dan bij ' + element.carrier + '</span><small>Eindhoven naar</small><strong>' + element.city + '</strong> <small class="departure">vanaf</small> <strong>€ ' + price + '</strong></h4><h5 class="card-subtitle mb-2">Deze vlucht wordt uitgevoerd door ' + element.carrier + ' en vertrekt op ' + departure_element.departure + '. </h5></div></div></div><div class="flights" data-id="' + counter + '"><table class="table"><tbody><tr><th scope="row">' + departure_element.departure + '</th><td>' + element.carrier + '</td><td><button type="button" class="btn btn-primary btn-sm">€ ' + price + '</button></td></tr></tbody></table></div></a></div>');
               $(".card#" + counter + " .card-img-top").css({"background": "url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover" });
               $(".card#" + counter + " .card-img-top").hover(function() {
                 $(this).css({"background": "linear-gradient(to bottom, transparent, black), url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover" });
@@ -118,8 +132,22 @@ block content
                 $(this).css({"background": "url('https://source.unsplash.com/" + element.background + "/800x450') no-repeat", "background-size": "cover"});
               });
               
+              $( ".card a" ).click(function() {
+              
+                $(".card#" + this.getAttribute("data-id") + " .card-img-top").css({"border-radius": ".25rem .25rem 0rem 0rem"});
+
+                $( ".flights[data-id='" + this.getAttribute("data-id") + "']" ).slideDown( "fast", function() {
+                  // Animation complete.
+                });
+
+              });
+              
               } else {
               
+                var price = Number(departure_element.price.edreams);
+              
+                $(".flights[data-id='" + counter + "'] tbody").append('<tr><th scope="row">' + departure_element.departure + '</th><td>' + element.carrier + '</td><td><button type="button" class="btn btn-primary btn-sm">€ ' + price + '</button></td></tr>')
+                
               }
               
             })
